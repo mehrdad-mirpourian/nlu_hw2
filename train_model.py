@@ -99,6 +99,7 @@ def init_model(trial: Any, model_name: str, use_bitfit: bool = False) -> \
     # Ensure default behavior when use_bitfit=False: I added this line
     # Becasue during testing my code I got some unexpected output when
     # bitfit = False. Adding this line made my output behave correctly.
+    model = BertForSequenceClassification.from_pretrained(model_name, num_labels=2)
     for param in model.parameters():
         param.requires_grad = True  # Make all parameters trainable by default
 
@@ -129,9 +130,9 @@ def init_trainer(model_name: str, train_data: Dataset, val_data: Dataset,
     :return: A Trainer used for training
     """
     # Step 1: Define a function for computing accuracy on validation
-    def compute_metrics(eval_pred):
+    def compute_metrics(eval_pred: EvalPrediction):
         metric = evaluate.load("accuracy")
-        logits, labels = eval_pred
+        logits, labels = eval_pred.predictions, eval_pred.label_ids
         predictions = np.argmax(logits, axis=-1)
         return metric.compute(predictions=predictions, references=labels)
 
@@ -189,7 +190,6 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
 
     return {
         "direction": "maximize",
-        "hp_space": lambda _: search_space,  # Pass search space directly (GridSampler does not need `hp_space`)
         "compute_objective": compute_objective,
         "n_trials": len(search_space["learning_rate"]) *
                     len(search_space["per_device_train_batch_size"]) *
