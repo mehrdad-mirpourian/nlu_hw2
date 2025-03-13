@@ -217,11 +217,18 @@ if __name__ == "__main__":  # Use this script to train your model
     imdb["train"] = preprocess_dataset(imdb["train"], tokenizer)
     imdb["val"] = preprocess_dataset(imdb["val"], tokenizer)
 
-    # Set up trainer
-    trainer = init_trainer(model_name, imdb["train"], imdb["val"],
-                           use_bitfit=True)
+    # Fine-tune **with BitFit**
+    trainer_with_bitfit = init_trainer(model_name, imdb["train"], imdb["val"], use_bitfit=True)
+    best_with_bitfit = trainer_with_bitfit.hyperparameter_search(**hyperparameter_search_settings())
 
-    # Train and save the best hyperparameters
-    best = trainer.hyperparameter_search(**hyperparameter_search_settings())
-    with open("train_results.p", "wb") as f:
-        pickle.dump(best, f)
+    # Save results
+    with open("train_results_with_bitfit.p", "wb") as f:
+        pickle.dump(best_with_bitfit, f)
+
+    # Fine-tune **without BitFit**
+    trainer_without_bitfit = init_trainer(model_name, imdb["train"], imdb["val"], use_bitfit=False)
+    best_without_bitfit = trainer_without_bitfit.hyperparameter_search(**hyperparameter_search_settings())
+
+    # Save results
+    with open("train_results_without_bitfit.p", "wb") as f:
+        pickle.dump(best_without_bitfit, f)
