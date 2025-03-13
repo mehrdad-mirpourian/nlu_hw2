@@ -182,7 +182,7 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     }
 
     # Use GridSampler for predefined search space
-    grid_sampler = GridSampler(search_space, seed=42)
+    grid_sampler = GridSampler(search_space)
 
     # Function to maximize accuracy
     def compute_objective(metrics):
