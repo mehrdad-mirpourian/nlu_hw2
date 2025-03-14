@@ -176,12 +176,12 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
         "learning_rate": [2e-5, 3e-5, 5e-5],  # Typical learning rates for transformers
         "per_device_train_batch_size": [8, 16],  # Corrected batch size options
         "weight_decay": [0.01, 0.001],  # Regularization values
-        "num_train_epochs": [2, 3],  # Reduced max epochs to speed up tuning
+        "num_train_epochs": [2, 3, 4],  # Reduced max epochs to speed up tuning
         "dropout": [0.1, 0.2],  # Only 2 dropout choices
         "optimizer": ["adamw_torch"],  # Only AdamW, since it's standard for Transformers         
         "seed": [42, 3463],
     }
-
+    
     # Use GridSampler for predefined search space
     grid_sampler = GridSampler(search_space)
 
