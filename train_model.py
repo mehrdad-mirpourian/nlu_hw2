@@ -179,7 +179,7 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
         "num_train_epochs": [1],  # Reduced max epochs to speed up tuning
         "dropout": [0.1, 0.2],  # Only 2 dropout choices
         "optimizer": ["adamw_torch"],  # Only AdamW, since it's standard for Transformers         
-        "seed": [42, 3463],
+        "seed": [10, 20],
     }
     
     # Use GridSampler for predefined search space
