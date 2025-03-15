@@ -85,34 +85,3 @@ if __name__ == "__main__":  # Use this script to test your model
     with open("test_results_without_bitfit.p", "wb") as f:
         pickle.dump(results_without_bitfit, f)
 
-
-    #  Load the best hyperparameters from training results
-    with open("train_results_with_bitfit.p", "rb") as f:
-        best_hyperparams_with_bitfit = pickle.load(f)
-
-    with open("train_results_without_bitfit.p", "rb") as f:
-        best_hyperparams_without_bitfit = pickle.load(f)
-
-
-    # Extract accuracy
-    accuracy_with_bitfit = results_with_bitfit.metrics.get("eval_accuracy", "N/A")
-    accuracy_without_bitfit = results_without_bitfit.metrics.get("eval_accuracy", "N/A")
-    
-    # Extract best hyperparameters
-    def get_hyperparams(results):
-        return results.best_trial.params if hasattr(results, "best_trial") else "N/A"
-    
-    hyperparams_with_bitfit = get_hyperparams(best_hyperparams_with_bitfit)
-    hyperparams_without_bitfit = get_hyperparams(best_hyperparams_without_bitfit)
-    
-    # Format hyperparameters for readability
-    def format_hyperparams(hyperparams):
-        return json.dumps(hyperparams, indent=4) if hyperparams != "N/A" else "N/A"
-    
-    hyperparams_with_bitfit_str = format_hyperparams(hyperparams_with_bitfit)
-    hyperparams_without_bitfit_str = format_hyperparams(hyperparams_without_bitfit)
-    
-    # Print the results in table format
-    print("\n# Trainable Parameters  Test Accuracy  Best Hyperparameters")
-    print(f"Without BitFit         {accuracy_without_bitfit:.4f}    {hyperparams_without_bitfit_str}")
-    print(f"With BitFit            {accuracy_with_bitfit:.4f}    {hyperparams_with_bitfit_str}")
