@@ -82,3 +82,17 @@ if __name__ == "__main__":  # Use this script to test your model
     results_without_bitfit = tester_without_bitfit.predict(imdb["test"])
     with open("test_results_without_bitfit.p", "wb") as f:
         pickle.dump(results_without_bitfit, f)
+
+
+    # Extract accuracy
+    accuracy_with_bitfit = results_with_bitfit.metrics.get("test_accuracy", "N/A")
+    accuracy_without_bitfit = results_without_bitfit.metrics.get("test_accuracy", "N/A")
+
+    # Extract best hyperparameters
+    hyperparams_with_bitfit = best_hyperparams_with_bitfit.hyperparameters if hasattr(best_hyperparams_with_bitfit, "hyperparameters") else "N/A"
+    hyperparams_without_bitfit = best_hyperparams_without_bitfit.hyperparameters if hasattr(best_hyperparams_without_bitfit, "hyperparameters") else "N/A"
+
+    # Print the results in table format
+    print("\n# Trainable Parameters  Test Accuracy  Best Hyperparameters")
+    print(f"Without BitFit         {accuracy_without_bitfit:.4f}    {hyperparams_without_bitfit}")
+print(f"With BitFit            {accuracy_with_bitfit:.4f}    {hyperparams_with_bitfit}")
