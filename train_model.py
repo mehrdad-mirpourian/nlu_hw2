@@ -222,6 +222,7 @@ if __name__ == "__main__":  # Use this script to train your model
     # Fine-tune **with BitFit**
     trainer_with_bitfit = init_trainer(model_name, imdb["train"], imdb["val"], use_bitfit=True)
     best_with_bitfit = trainer_with_bitfit.hyperparameter_search(**hyperparameter_search_settings())
+    trainer_with_bitfit.model = best_with_bitfit.model
     trainer_with_bitfit.save_model("best_with_bitfit")
 
     # Save results
@@ -231,6 +232,7 @@ if __name__ == "__main__":  # Use this script to train your model
     # Fine-tune **without BitFit**
     trainer_without_bitfit = init_trainer(model_name, imdb["train"], imdb["val"], use_bitfit=False)
     best_without_bitfit = trainer_without_bitfit.hyperparameter_search(**hyperparameter_search_settings())
+    trainer_without_bitfit.model = best_without_bitfit.model
     trainer_without_bitfit.save_model("best_without_bitfit")
     
     # Save results
