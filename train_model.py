@@ -4,7 +4,6 @@ Code for Problem 1 of HW 2.
 import os 
 import numpy as np
 from collections.abc import Iterable
-from typing import Dict, Any
 
 import torch
 import torch.nn as nn
@@ -22,6 +21,9 @@ os.environ["WANDB_DISABLED"] = "true"
 use_fp16 = torch.cuda.is_available()
 
 import pickle
+
+os.environ["WANDB_DISABLED"] = "true"
+use_fp16 = torch.cuda.is_available()
 
 
 
