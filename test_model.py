@@ -23,7 +23,34 @@ def init_tester(directory: str) -> Trainer:
         saved
     :return: A Trainer used for testing
     """
-    raise NotImplementedError("Problem 2b has not been completed yet!")
+    # Load the fine-tuned model from the directory
+    model = BertForSequenceClassification.from_pretrained(directory)
+
+    # Define evaluation arguments (no training, only testing)
+    training_args = TrainingArguments(
+        output_dir="./results",  # Store evaluation results
+        per_device_eval_batch_size=16,  # Match batch size used in training
+        do_train=False,  # Ensure training is disabled
+        do_eval=True,  # Enable evaluation
+        logging_dir="./logs",  # Directory for logs
+        report_to="none"  # Disable unnecessary logging (e.g., wandb)
+    )
+
+    # Define compute_metrics function (same as in training)
+    def compute_metrics(eval_pred):
+        logits, labels = eval_pred
+        predictions = np.argmax(logits, axis=-1)
+        accuracy = (predictions == labels).mean()
+        return {"accuracy": accuracy}
+
+    # Create Trainer for testing
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        compute_metrics=compute_metrics
+    )
+
+    return trainer
 
 
 if __name__ == "__main__":  # Use this script to test your model
@@ -39,9 +66,19 @@ if __name__ == "__main__":  # Use this script to test your model
     imdb["test"] = preprocess_dataset(imdb["test"], tokenizer)
 
     # Set up tester
-    tester = init_tester("path_to_your_best_model")
+    # tester = init_tester("path_to_your_best_model")
+    tester_with_bitfit = init_tester("best_with_bitfit")
+    tester_without_bitfit = init_tester("best_without_bitfit")
 
     # Test
-    results = tester.predict(imdb["test"])
-    with open("test_results.p", "wb") as f:
-        pickle.dump(results, f)
+    # results = tester.predict(imdb["test"])
+    # with open("test_results.p", "wb") as f:
+    #     pickle.dump(results, f)
+
+    results_with_bitfit = tester_with_bitfit.predict(imdb["test"])
+    with open("test_results_with_bitfit.p", "wb") as f:
+        pickle.dump(results_with_bitfit, f)
+
+results_without_bitfit = tester_without_bitfit.predict(imdb["test"])
+with open("test_results_without_bitfit.p", "wb") as f:
+    pickle.dump(results_without_bitfit, f)
