@@ -174,10 +174,10 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     """
     # Define the optimized hyperparameter search space
     search_space = {
-        "learning_rate": [5e-5],  # Typical learning rates for transformers
-        "per_device_train_batch_size": [32],  # Corrected batch size options
+        "learning_rate": [2e-5, 3e-5, 5e-5],  # Typical learning rates for transformers
+        "per_device_train_batch_size": [8, 16],  # Corrected batch size options
         "weight_decay": [0.01, 0.001],  # Regularization values
-        "num_train_epochs": [1],  # Reduced max epochs to speed up tuning
+        "num_train_epochs": [4, 6],  # Reduced max epochs to speed up tuning
         "dropout": [0.1, 0.2],  # Only 2 dropout choices
         "optimizer": ["adamw_torch"],  # Only AdamW, since it's standard for Transformers         
         "seed": [10, 20],
