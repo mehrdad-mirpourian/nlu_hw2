@@ -8,6 +8,8 @@ from collections.abc import Iterable
 import torch
 import torch.nn as nn
 
+from typing import Dict, Any
+
 from datasets import load_dataset, Dataset
 from transformers import AutoModelForSequenceClassification, \
     BertForSequenceClassification, BertTokenizerFast, Trainer, TrainingArguments, EvalPrediction
@@ -21,9 +23,6 @@ os.environ["WANDB_DISABLED"] = "true"
 use_fp16 = torch.cuda.is_available()
 
 import pickle
-
-os.environ["WANDB_DISABLED"] = "true"
-use_fp16 = torch.cuda.is_available()
 
 
 
