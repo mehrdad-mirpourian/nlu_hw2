@@ -79,6 +79,6 @@ if __name__ == "__main__":  # Use this script to test your model
     with open("test_results_with_bitfit.p", "wb") as f:
         pickle.dump(results_with_bitfit, f)
 
-results_without_bitfit = tester_without_bitfit.predict(imdb["test"])
-with open("test_results_without_bitfit.p", "wb") as f:
-    pickle.dump(results_without_bitfit, f)
+    results_without_bitfit = tester_without_bitfit.predict(imdb["test"])
+    with open("test_results_without_bitfit.p", "wb") as f:
+        pickle.dump(results_without_bitfit, f)
