@@ -147,8 +147,8 @@ def init_trainer(model_name: str, train_data: Dataset, val_data: Dataset,
         logging_dir="./logs",
         per_device_train_batch_size=16,
         per_device_eval_batch_size=16,
-        num_train_epochs=2,
-        save_total_limit=2,
+        num_train_epochs=4,
+        save_total_limit=4,
         load_best_model_at_end=True,
         metric_for_best_model="eval_accuracy",
         fp16=use_fp16  # Enable mixed-precision only if GPU is available
@@ -176,10 +176,10 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     """
     # Define the optimized hyperparameter search space
     search_space = {
-        "learning_rate": [5e-5],  # Typical learning rates for transformers   [3e-5, 5e-5]
+        "learning_rate": [4e-5, 5e-5],  # Typical learning rates for transformers   [3e-5, 5e-5]
         "per_device_train_batch_size": [16],  # Corrected batch size options  
         "weight_decay": [0.01],  # Regularization values                      [0.01, 0.001]
-        "num_train_epochs": [2],  # Reduced max epochs to speed up tuning
+        "num_train_epochs": [3, 4],  # Reduced max epochs to speed up tuning
         "dropout": [0.1],  # Only 2 dropout choices                           [0.1, 0.2]
         "optimizer": ["adamw_torch"],  # Only AdamW, since it's standard for Transformers         
         "seed": [10], 
