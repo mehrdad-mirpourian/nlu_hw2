@@ -26,7 +26,7 @@ def init_tester(directory: str) -> Trainer:
     :return: A Trainer used for testing
     """
     # Load the fine-tuned model from the directory
-    model = BertForSequenceClassification.from_pretrained(directory, from_safetensors=True)
+    model = BertForSequenceClassification.from_pretrained(directory)
 
     # Define evaluation arguments (no training, only testing)
     training_args = TrainingArguments(
@@ -69,8 +69,8 @@ if __name__ == "__main__":  # Use this script to test your model
 
     # Set up tester
     # tester = init_tester("path_to_your_best_model")
-    tester_with_bitfit = init_tester("checkpoints_with_bitfit")
-    tester_without_bitfit = init_tester("checkpoints_without_bitfit")
+    tester_with_bitfit = init_tester("best_with_bitfit")
+    tester_without_bitfit = init_tester("best_without_bitfit")
 
     # Test
     # results = tester.predict(imdb["test"])
