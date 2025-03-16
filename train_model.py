@@ -141,16 +141,16 @@ def init_trainer(model_name: str, train_data: Dataset, val_data: Dataset,
                      
     # Step 2: Define training arguments for our trainer
     training_args = TrainingArguments(
-        output_dir= checkpoint_dir,
+        output_dir=checkpoint_dir,
         evaluation_strategy="epoch",
         save_strategy="epoch",
         logging_dir="./logs",
         per_device_train_batch_size=16,
         per_device_eval_batch_size=16,
-        num_train_epochs=4,
-        save_total_limit=4,
+        num_train_epochs=2,
+        save_total_limit=2,
         load_best_model_at_end=True,
-        metric_for_best_model="accuracy",
+        metric_for_best_model="eval_accuracy",
         fp16=use_fp16  # Enable mixed-precision only if GPU is available
     )
 
@@ -179,7 +179,7 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
         "learning_rate": [5e-5],  # Typical learning rates for transformers   [3e-5, 5e-5]
         "per_device_train_batch_size": [16],  # Corrected batch size options  
         "weight_decay": [0.01],  # Regularization values                      [0.01, 0.001]
-        "num_train_epochs": [3],  # Reduced max epochs to speed up tuning
+        "num_train_epochs": [2],  # Reduced max epochs to speed up tuning
         "dropout": [0.1],  # Only 2 dropout choices                           [0.1, 0.2]
         "optimizer": ["adamw_torch"],  # Only AdamW, since it's standard for Transformers         
         "seed": [10], 
@@ -222,10 +222,11 @@ if __name__ == "__main__":  # Use this script to train your model
     imdb["train"] = preprocess_dataset(imdb["train"], tokenizer)
     imdb["val"] = preprocess_dataset(imdb["val"], tokenizer)
 
+    
     # Fine-tune **with BitFit**
     trainer_with_bitfit = init_trainer(model_name, imdb["train"], imdb["val"], use_bitfit=True)
     best_with_bitfit = trainer_with_bitfit.hyperparameter_search(**hyperparameter_search_settings())
-
+    
     # Save the best model with BitFit
     best_model_checkpoint = trainer_with_bitfit.state.best_model_checkpoint
     if best_model_checkpoint:
@@ -244,6 +245,10 @@ if __name__ == "__main__":  # Use this script to train your model
     # Fine-tune **without BitFit**
     trainer_without_bitfit = init_trainer(model_name, imdb["train"], imdb["val"], use_bitfit=False)
     best_without_bitfit = trainer_without_bitfit.hyperparameter_search(**hyperparameter_search_settings())
+
+    # Print best checkpoint path to verify if it was saved correctly - Delete and remove before passing to autograder. 
+    print(f"Best checkpoint for with BitFit: {trainer_with_bitfit.state.best_model_checkpoint}")
+    print(f"Best checkpoint for without BitFit: {trainer_without_bitfit.state.best_model_checkpoint}")
 
     # Save the best model without BitFit
     best_model_checkpoint = trainer_without_bitfit.state.best_model_checkpoint
