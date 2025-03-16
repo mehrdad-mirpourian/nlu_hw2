@@ -137,9 +137,11 @@ def init_trainer(model_name: str, train_data: Dataset, val_data: Dataset,
         predictions = np.argmax(logits, axis=-1)
         return metric.compute(predictions=predictions, references=labels)
 
+    checkpoint_dir = "checkpoints_with_bitfit" if use_bitfit else "checkpoints_without_bitfit"   
+                     
     # Step 2: Define training arguments for our trainer
     training_args = TrainingArguments(
-        output_dir="checkpoints",
+        output_dir= checkpoint_dir,
         evaluation_strategy="epoch",
         save_strategy="epoch",
         logging_dir="./logs",
@@ -174,13 +176,13 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     """
     # Define the optimized hyperparameter search space
     search_space = {
-        "learning_rate": [3e-5, 5e-5],  # Typical learning rates for transformers
-        "per_device_train_batch_size": [16],  # Corrected batch size options
-        "weight_decay": [0.01, 0.001],  # Regularization values
+        "learning_rate": [5e-5],  # Typical learning rates for transformers   [3e-5, 5e-5]
+        "per_device_train_batch_size": [16],  # Corrected batch size options  
+        "weight_decay": [0.01],  # Regularization values                      [0.01, 0.001]
         "num_train_epochs": [3],  # Reduced max epochs to speed up tuning
-        "dropout": [0.1, 0.2],  # Only 2 dropout choices
+        "dropout": [0.1],  # Only 2 dropout choices                           [0.1, 0.2]
         "optimizer": ["adamw_torch"],  # Only AdamW, since it's standard for Transformers         
-        "seed": [10, 20],
+        "seed": [10], 
     }
     
     # Use GridSampler for predefined search space
