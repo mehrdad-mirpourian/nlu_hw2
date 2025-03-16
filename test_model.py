@@ -26,7 +26,7 @@ def init_tester(directory: str) -> Trainer:
     :return: A Trainer used for testing
     """
     # Load the fine-tuned model from the directory
-    model = BertForSequenceClassification.from_pretrained(directory)
+    model = BertForSequenceClassification.from_pretrained(directory, from_safetensors=True)
 
     # Define evaluation arguments (no training, only testing)
     training_args = TrainingArguments(
