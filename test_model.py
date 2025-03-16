@@ -69,8 +69,8 @@ if __name__ == "__main__":  # Use this script to test your model
 
     # Set up tester
     # tester = init_tester("path_to_your_best_model")
-    tester_with_bitfit = init_tester("best_with_bitfit")
-    tester_without_bitfit = init_tester("best_without_bitfit")
+    tester_with_bitfit = init_tester("checkpoints_with_bitfit")
+    tester_without_bitfit = init_tester("checkpoints_without_bitfit")
 
     # Test
     # results = tester.predict(imdb["test"])
