@@ -233,7 +233,7 @@ if __name__ == "__main__":  # Use this script to train your model
         best_model_with_bitfit = BertForSequenceClassification.from_pretrained(best_model_checkpoint)
         # best_model_with_bitfit.save_pretrained("best_with_bitfit")
         best_model_with_bitfit.save_pretrained("best_with_bitfit", safe_serialization=True)  # Save safetensors
-        best_model_with_bitfit.save_pretrained("best_with_bitfit", safe_serialization=False)  # Save pytorch_model.bin
+        # best_model_with_bitfit.save_pretrained("best_with_bitfit", safe_serialization=False)  # Save pytorch_model.bin
    
     else:
         print("Warning: No best model checkpoint found for BitFit!")
@@ -260,7 +260,7 @@ if __name__ == "__main__":  # Use this script to train your model
         # best_model_without_bitfit.save_pretrained("best_without_bitfit")
 
         best_model_without_bitfit.save_pretrained("best_without_bitfit", safe_serialization=True)  # Save safetensors
-        best_model_without_bitfit.save_pretrained("best_without_bitfit", safe_serialization=False)  # Save pytorch_model.bin
+        # best_model_without_bitfit.save_pretrained("best_without_bitfit", safe_serialization=False)  # Save pytorch_model.bin
    
     else:
         print("Warning: No best model checkpoint found for Non-BitFit!")       
