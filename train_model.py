@@ -199,11 +199,11 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
                     len(search_space["num_train_epochs"]) *
                     len(search_space["dropout"]) *
                     len(search_space["optimizer"]) *
-                    len(search_space["seed"]),
+                    len(search_space["seed"])),
         "sampler": grid_sampler,
     }
 
-if __name__ == "__main__":  # Use this script to train your model
+if __name__ == "__main__":  # Use this script to train your model 
     model_name = "prajjwal1/bert-tiny"
 
     # Load IMDb dataset and create validation split
