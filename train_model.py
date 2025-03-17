@@ -190,18 +190,27 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     def compute_objective(metrics):
         return metrics["eval_accuracy"]
 
+    # return {
+    #     "direction": "maximize",
+    #     "compute_objective": compute_objective,
+    #     "n_trials": max(2, len(search_space["learning_rate"]) *     # "n_trials": len(search_space["learning_rate"]) *
+    #                 len(search_space["per_device_train_batch_size"]) *
+    #                 len(search_space["weight_decay"]) *
+    #                 len(search_space["num_train_epochs"]) *
+    #                 len(search_space["dropout"]) *
+    #                 len(search_space["optimizer"]) *
+    #                 len(search_space["seed"])),
+    #     "sampler": grid_sampler,
+    # }
+
+
     return {
         "direction": "maximize",
         "compute_objective": compute_objective,
-        "n_trials": max(2, len(search_space["learning_rate"]) *     # "n_trials": len(search_space["learning_rate"]) *
-                    len(search_space["per_device_train_batch_size"]) *
-                    len(search_space["weight_decay"]) *
-                    len(search_space["num_train_epochs"]) *
-                    len(search_space["dropout"]) *
-                    len(search_space["optimizer"]) *
-                    len(search_space["seed"])),
+        "n_trials": 4,  # Explicitly setting this value
         "sampler": grid_sampler,
-    }
+   }
+
 
 if __name__ == "__main__":  # Use this script to train your model 
     model_name = "prajjwal1/bert-tiny"
