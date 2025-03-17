@@ -162,6 +162,16 @@ def init_trainer(model_name: str, train_data: Dataset, val_data: Dataset,
     )
     return trainer
 
+def hp_space(trial):
+    """
+    Define the hyperparameter search space using Optuna's trial.suggest_* methods.
+    """
+    return {
+        "learning_rate": trial.suggest_categorical("learning_rate", [3e-4, 1e-4, 5e-5, 3e-5]),
+        "per_device_train_batch_size": trial.suggest_categorical("per_device_train_batch_size", [8, 16, 32, 64, 128]),
+    }
+
+
 def hyperparameter_search_settings() -> Dict[str, Any]:
     """
     Problem 2c: Implement this function.
@@ -173,9 +183,9 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     :return: Keyword arguments for Trainer.hyperparameter_search
     """
     # Define the optimized hyperparameter search space
-    search_space = { 
-        "learning_rate": [3e-4, 1e-4, 5e-5, 3e-5],  # Typical learning rates for transformers                                   
-        "per_device_train_batch_size": [8, 16, 32, 64, 128],  # Corrected batch size options  
+    # search_space = { 
+    #     "learning_rate": [3e-4, 1e-4, 5e-5, 3e-5],  # Typical learning rates for transformers                                   
+    #     "per_device_train_batch_size": [8, 16, 32, 64, 128],  # Corrected batch size options  
     }
 
     # search_space = { 
@@ -188,7 +198,7 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     #     "seed": [10], 
     # }
     # Use GridSampler for predefined search space
-    grid_sampler = GridSampler(search_space)
+    # grid_sampler = GridSampler(search_space)
     # Function to maximize accuracy
     def compute_objective(metrics):
         return metrics["eval_accuracy"]
@@ -211,7 +221,8 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
         "direction": "maximize",
         "compute_objective": compute_objective,
         "n_trials": 20,  # Explicitly setting this value
-        "sampler": grid_sampler,
+        "hp_space": hp_space,
+        # "sampler": grid_sampler,
    }
 
 
