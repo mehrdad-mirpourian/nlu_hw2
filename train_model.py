@@ -186,7 +186,7 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     # search_space = { 
     #     "learning_rate": [3e-4, 1e-4, 5e-5, 3e-5],  # Typical learning rates for transformers                                   
     #     "per_device_train_batch_size": [8, 16, 32, 64, 128],  # Corrected batch size options  
-    }
+    # }
 
     # search_space = { 
     #     "learning_rate": [3e-4, 1e-4, 5e-5, 3e-5],  # Typical learning rates for transformers                                   
