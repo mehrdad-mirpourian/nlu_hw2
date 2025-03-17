@@ -24,8 +24,6 @@ use_fp16 = torch.cuda.is_available()
 
 import pickle
 
-
-
 def preprocess_dataset(dataset: Dataset, tokenizer: BertTokenizerFast) \
         -> Dataset:
     """
@@ -176,10 +174,10 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     """
     # Define the optimized hyperparameter search space
     search_space = { 
-        "learning_rate": [3e-4, 1e-4, 5e-5, 3e-5],  # Typical learning rates for transformers                                    [3e-5, 5e-5]
-        "per_device_train_batch_size": [8, 16, 32, 64],  # Corrected batch size options  
+        "learning_rate": [3e-5, 5e-5],  # Typical learning rates for transformers                                    [3e-5, 5e-5]
+        "per_device_train_batch_size": [8, 16],  # Corrected batch size options  
         "weight_decay": [0.01],  # Regularization values                                                            [0.01, 0.001]
-        "num_train_epochs": [4],  # Reduced max epochs to speed up tuning
+        "num_train_epochs": [2],  # Reduced max epochs to speed up tuning
         "dropout": [0.1],  # Only 2 dropout choices                                                                [0.1, 0.2]
         "optimizer": ["adamw_torch"],  # Only AdamW, since it's standard for Transformers         
         "seed": [10], 
@@ -195,7 +193,7 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     return {
         "direction": "maximize",
         "compute_objective": compute_objective,
-        "n_trials": len(search_space["learning_rate"]) *
+        "n_trials": max(2, len(search_space["learning_rate"]) *     # "n_trials": len(search_space["learning_rate"]) *
                     len(search_space["per_device_train_batch_size"]) *
                     len(search_space["weight_decay"]) *
                     len(search_space["num_train_epochs"]) *
