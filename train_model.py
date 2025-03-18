@@ -167,11 +167,16 @@ def hp_space(trial):
     """
     Define the hyperparameter search space using Optuna's trial.suggest_* methods.
     """
-    return {
-        "learning_rate": trial.suggest_categorical("learning_rate", [3e-4, 1e-4, 5e-5, 3e-5]),
-        "per_device_train_batch_size": trial.suggest_categorical("per_device_train_batch_size", [8, 16, 32, 64, 128]),
-    }
+    lr = trial.suggest_categorical("learning_rate", [3e-4, 1e-4, 5e-5, 3e-5])
+    batch_size = trial.suggest_categorical("per_device_train_batch_size", [8, 16, 32, 64, 128])
 
+    # Log the trial details
+    print(f"Trial {trial.number}: lr={lr}, batch_size={batch_size}")
+
+    return {
+        "learning_rate": lr,
+        "per_device_train_batch_size": batch_size,
+    }
 
 def hyperparameter_search_settings() -> Dict[str, Any]:
     """
