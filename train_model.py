@@ -66,6 +66,11 @@ def init_model(trial: Any, model_name: str, use_bitfit: bool = False) -> BertFor
             if "bias" not in name:
                 param.requires_grad = False  # Freeze all non-bias parameters
 
+    print("\nTrainable parameters after initializing model:")
+    for name, param in model.named_parameters():
+        if param.requires_grad:
+            print(name)
+    
     return model
 
 
