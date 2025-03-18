@@ -17,6 +17,7 @@ from transformers import AutoModelForSequenceClassification, \
 import evaluate
 import optuna
 from optuna.samplers import GridSampler
+from optuna.pruners import MedianPruner
 
 os.environ["WANDB_DISABLED"] = "true"
 
@@ -195,13 +196,18 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     def compute_objective(metrics):
         return metrics["eval_accuracy"]
 
+    pruner = MedianPruner(
+        n_startup_trials=5,  # Run 5 full trials before pruning starts
+        n_warmup_steps=10,
+    )
+
     return {
         "direction": "maximize",
         "compute_objective": compute_objective,
-        "n_trials": 20,  # Explicitly setting this value
-        "hp_space": hp_space,
-        # "sampler": grid_sampler,
-   }
+        "n_trials": 20,  # Explicitly setting this to 20
+        "hp_space": hp_space,  # Explicitly setting search space
+        "pruner": pruner,  # Reduce aggressive pruning
+    }
 
     # return {
     #     "direction": "maximize",
