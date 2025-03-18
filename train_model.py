@@ -62,14 +62,17 @@ def init_model(trial: Any, model_name: str, use_bitfit: bool = False) -> BertFor
         param.requires_grad = True  # Make all parameters trainable by default
 
     if use_bitfit:
+        print("Applying BitFit: Freezing all non-bias parameters...")
         for name, param in model.named_parameters():
             if "bias" not in name:
                 param.requires_grad = False  # Freeze all non-bias parameters
+            else:
+                print(f"BitFit - Trainable parameter: {name}") 
 
-    print("\nTrainable parameters after initializing model:")
-    for name, param in model.named_parameters():
-        if param.requires_grad:
-            print(name)
+    # print("\nTrainable parameters after initializing model:")
+    # for name, param in model.named_parameters():
+    #     if param.requires_grad:
+    #         print(name)
     
     return model
 
