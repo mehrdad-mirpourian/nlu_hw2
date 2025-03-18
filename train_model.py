@@ -195,6 +195,14 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     def compute_objective(metrics):
         return metrics["eval_accuracy"]
 
+    return {
+        "direction": "maximize",
+        "compute_objective": compute_objective,
+        "n_trials": 20,  # Explicitly setting this value
+        "hp_space": hp_space,
+        # "sampler": grid_sampler,
+   }
+
     # return {
     #     "direction": "maximize",
     #     "compute_objective": compute_objective,
@@ -207,16 +215,7 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     #                 len(search_space["seed"])),
     #     "sampler": grid_sampler,
     # }
-
-
-    return {
-        "direction": "maximize",
-        "compute_objective": compute_objective,
-        "n_trials": 20,  # Explicitly setting this value
-        "hp_space": hp_space,
-        # "sampler": grid_sampler,
-   }
-
+  
 
 if __name__ == "__main__":  # Use this script to train your model 
     model_name = "prajjwal1/bert-tiny"
