@@ -151,6 +151,7 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
         "n_trials": 20,  # Explicitly setting to 20
         "hp_space": hp_space,
         "sampler": sampler,  # Ensures every combination is tested
+        "pruner": None
     }
 
 
