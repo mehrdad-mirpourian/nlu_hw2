@@ -97,7 +97,7 @@ def init_trainer(model_name: str, train_data: Dataset, val_data: Dataset, use_bi
         logging_dir="./logs",
         per_device_train_batch_size=16,
         per_device_eval_batch_size=16,
-        num_train_epochs=1,
+        num_train_epochs=4,
         save_total_limit=4,
         load_best_model_at_end=True,
         metric_for_best_model="eval_accuracy",
@@ -148,7 +148,7 @@ def hyperparameter_search_settings() -> Dict[str, Any]:
     return {
         "direction": "maximize",
         "compute_objective": compute_objective,
-        "n_trials": 2,  # Explicitly setting to 20
+        "n_trials": 20,  # Explicitly setting to 20
         "hp_space": hp_space,
         "sampler": sampler,  # Ensures every combination is tested
         "pruner": None
